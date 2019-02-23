@@ -5,14 +5,9 @@ if(process.argv.length < 3){
   print();
   return;
 }
-let num = +process.argv[2];
-if(isNaN(num)){
-  print();
-  return;
-}
-let params = process.argv[3];
+let params = process.argv[2];
 let data = "";
-const N = Math.floor(num);
+let N = 50;  // default for random  
 const POWER = 5; 
 
 if(params != "-r" && params != "-i"){
@@ -20,11 +15,13 @@ if(params != "-r" && params != "-i"){
   return;
 }
 if(params == "-r"){
+  let num = +process.argv[3] || N;
+  N = Math.floor(num);
   for(let i = 0; i < N; i++){
     crr[i] = powerTwo(Math.floor(Math.floor(POWER * Math.random()) * Math.random())); 
   }
 }else if(params == "-i"){
-    let str = process.argv[4];
+    let str = process.argv[3];
     if(str == undefined){
       print();
       return;
@@ -48,7 +45,7 @@ console.log('input  =', crr.join(','));
 
 while(found){
   for(let i = 0; i < crr.length; i++){
-    if(next(crr, i)){
+    if(crr[i] == crr[i + 1]){
       Incr = maxIncr(crr, i);
       Decr = maxDecr(crr, i+1);
       if(Incr.count == 0 && Decr.count == 0){
@@ -82,7 +79,7 @@ while(found){
 }
 console.log('output =', crr.join(','));
 console.log('shift: ', shift.join(','));
-function deleteElement(arr, index, dir){
+function deleteElement(arr, index, dir){// удаление элемента массива со сдвигом массива влево, вправо
   let left = [];
   let right = [];
   let val = arr[index];
@@ -105,7 +102,7 @@ function next(arr, index){
   return arr[index] == arr[index + 1];
 };
 
-function maxIncr(arr, index){
+function maxIncr(arr, index){ // поиск возрастающей последовательности элементов массива
   let res = 0;
   let count = 0;
   let val = arr[index]; 
@@ -122,7 +119,7 @@ function maxIncr(arr, index){
   return {count: count, index: res - count};
 };
 
-function maxDecr(arr, index){
+function maxDecr(arr, index){ //поиск убывающей последовательности массива
   let res = 0;
   let count = 0;
   let val = arr[index];
@@ -160,7 +157,7 @@ function mono(arr, index){
   return 0;
 };
 
-function powerTwo(pwr){
+function powerTwo(pwr){ //степень двойки
 	if(pwr < 0) return 1;
 	let a = 1;
 	return a << pwr;
@@ -168,8 +165,11 @@ function powerTwo(pwr){
 
 function print(){
   console.log('нет параметров');
-  console.log('node appname N -r -i');
-  console.log('N - длина массива');
-  console.log('r - случайный массив');
+  console.log('node appname -i -r N');
   console.log('i - входной массив');
+  console.log('r - случайный массив');
+  console.log('N - длина массива');
+  console.log('\tпримеры:');
+  console.log('node appname -i 1,2,4,4,2,1,8');
+  console.log('node appname -r 100');
 };
