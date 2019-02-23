@@ -98,10 +98,6 @@ function deleteElement(arr, index, dir){// удаление элемента м�
   }
 };
 
-function next(arr, index){
-  return arr[index] == arr[index + 1];
-};
-
 function maxIncr(arr, index){ // поиск возрастающей последовательности элементов массива
   let res = 0;
   let count = 0;
